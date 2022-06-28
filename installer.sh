@@ -2,7 +2,7 @@
 ##setup command=wget -q "--no-check-certificate" https://raw.githubusercontent.com/fairbird/ArabicSavior/main/installer.sh -O - | /bin/sh
 
 ######### Only These two lines to edit with new version ######
-version=1.8
+version=1.9
 ##############################################################
 
 # remove old version
