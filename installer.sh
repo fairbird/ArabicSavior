@@ -15,7 +15,7 @@ fi
 # Download and install plugin
 cd /tmp
 rm -rf *ArabicSavior*
-wget --no-check-certificate --content-disposition https://github.com/fairbird/ArabicSavior/archive/refs/heads/main.tar.gz
+wget --no-check-certificate https://github.com/fairbird/ArabicSavior/archive/refs/heads/main.tar.gz
 if [ -f '/tmp/ArabicSavior-main.tar.gz' ]; then
 	if [ -f /var/lib/dpkg/status ]; then
    		apt-ger -r enigma2-plugin-extensions-arabicsavior
@@ -24,9 +24,10 @@ if [ -f '/tmp/ArabicSavior-main.tar.gz' ]; then
 	fi
 	rm -rf /usr/lib/enigma2/python/Plugins/Extensions/ArabicSavior > /dev/null 2>&1
 fi
-tar -xf ArabicSavior-main.tar.gz
+tar -xf main.tar.gz
 cp -rf ArabicSavior-main/usr /
 rm -rf *ArabicSavior*
+rm -rf *main*
 cd ..
 
 sync
