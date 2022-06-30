@@ -24,11 +24,17 @@ if [ -f '/tmp/ArabicSavior-main.tar.gz' ]; then
 	fi
 	rm -rf /usr/lib/enigma2/python/Plugins/Extensions/ArabicSavior > /dev/null 2>&1
 fi
-tar -xf main.tar.gz > /dev/null 2>&1
-cp -rf ArabicSavior-main/usr / > /dev/null 2>&1
+tar -xf main.tar.gz
+cp -rf ArabicSavior-main/usr /
 rm -rf *ArabicSavior* > /dev/null 2>&1
 rm -rf *main* > /dev/null 2>&1
 cd ..
+
+### Check if plugin installed correctly
+if [ ! -d '/usr/lib/enigma2/python/Plugins/Extensions/ArabicSavior' ]; then
+	echo "Some thing wrong .. Plugin not installed"
+	exit 1
+fi
 
 sync
 echo "#########################################################"
