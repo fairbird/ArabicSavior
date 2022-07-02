@@ -12,5 +12,4 @@ setup(name='enigma2-plugin-extensions-ArabicSavior',
        packages=[PLUGIN_DIR],
        package_dir={PLUGIN_DIR: 'usr'},
        package_data={PLUGIN_DIR: ['plugin.png', '*/*.png']},
-       package_data={PLUGIN_DIR: ['*.png', 'images/*.png', 'images/preview/*.png', 'locale/*/LC_MESSAGES/*.mo']},
       )
