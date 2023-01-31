@@ -191,7 +191,7 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
                         if cur == self.set_fonts:
                                 PREVIEWPIC=resolveFilename(SCOPE_PLUGINS, "Extensions/ArabicSavior/images/preview/")
                                 preview = PREVIEWPIC + "%s.png" % config.ArabicSavior.fonts.value
-                                preview = preview.replace('//usr/lib/enigma2/python/Plugins/Extensions/ArabicSavior//fonts', '')
+                                preview = preview.replace('/usr/lib/enigma2/python/Plugins/Extensions/ArabicSavior/fonts', '')
                                 if os_path.exists(preview):
                                         self['Picture'].instance.setPixmapFromFile(preview)
                                         self["Picture"].show()
