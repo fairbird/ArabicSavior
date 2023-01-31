@@ -2,7 +2,7 @@
 ##setup command=wget https://raw.githubusercontent.com/fairbird/ArabicSavior/main/installer.sh -O - | /bin/sh
 
 ######### Only These two lines to edit with new version ######
-version=1.9
+version=2.0
 ##############################################################
 
 # remove old version
