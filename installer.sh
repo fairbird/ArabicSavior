@@ -1,9 +1,9 @@
 #!/bin/bash
 ##setup command=wget https://github.com/fairbird/ArabicSavior/blob/main/installer.sh -O - | /bin/sh
 
-######### Only These two lines to edit with new version ######
+######### Only These two lines to edit with new version #####
 version=2.1
-##############################################################
+#############################################################
 
 # remove old version
 if [ -f /var/lib/dpkg/status ]; then
