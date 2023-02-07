@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
-
 from Components.ConfigList import ConfigListScreen
 from Components.config import config, ConfigSubsection, ConfigEnableDisable, ConfigSelection, ConfigYesNo, getConfigListEntry, configfile
 from Components.Label import Label
@@ -186,12 +184,12 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
                 self["config"].onSelectionChanged.append(self.Picture)
 
         def Picture(self):
-                try:
+                #try:
                         cur = self["config"].getCurrent()
                         if cur == self.set_fonts:
-                                PREVIEWPIC=resolveFilename(SCOPE_PLUGINS, "Extensions/ArabicSavior/images/preview/")
-                                preview = PREVIEWPIC + "%s.png" % config.ArabicSavior.fonts.value
-                                preview = preview.replace('/usr/lib/enigma2/python/Plugins/Extensions/ArabicSavior/fonts', '')
+                                PLUGINPATH = resolveFilename(SCOPE_PLUGINS, "Extensions/ArabicSavior")
+                                preview = PLUGINPATH + "/images/preview/%s.png" % config.ArabicSavior.fonts.value
+                                preview = preview.replace(PLUGINPATH + "/fonts", "")
                                 if os_path.exists(preview):
                                         self['Picture'].instance.setPixmapFromFile(preview)
                                         self["Picture"].show()
@@ -199,8 +197,8 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
                                         logdata('Picture preview: No preview image')
                         else:
                                 self["Picture"].hide()
-                except Exception as error:
-                        logdata("Picture preview:", error)
+                #except Exception as error:
+                #        logdata("Picture preview:", error)
 
         def keyLeft(self):
                 ConfigListScreen.keyLeft(self)
