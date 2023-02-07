@@ -1,5 +1,5 @@
 #!/bin/bash
-##setup command=wget https://raw.githubusercontent.com/fairbird/ArabicSavior/main/installer.sh -O - | /bin/sh
+##setup command=wget https://github.com/fairbird/ArabicSavior/blob/main/installer.sh -O - | /bin/sh
 
 ######### Only These two lines to edit with new version ######
 version=2.1
