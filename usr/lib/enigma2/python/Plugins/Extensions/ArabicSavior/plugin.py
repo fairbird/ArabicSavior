@@ -263,16 +263,13 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
         def parseData(self, data):
                 if PY3:
                         data = data.decode("utf-8")
-                        print("data **************", data)
                 else:
                         data = data.encode("utf-8")
                 if data:
                         lines = data.split("\n")
-                        print("lines **************", lines)
                         for line in lines:
                                 if line.startswith("version"):
                                         self.new_version = line.split("=")[1]
-                                        print("self.new_version **************", self.new_version)
                 logdata("Current VER", VER)
                 logdata("New VER", self.new_version)
                 if float(VER) == float(self.new_version) or float(VER)>float(self.new_version):
