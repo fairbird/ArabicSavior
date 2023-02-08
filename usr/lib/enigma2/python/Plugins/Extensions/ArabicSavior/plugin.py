@@ -282,7 +282,7 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
                 try:
                         if answer:
                                 cmdlist = []
-                                cmd = "wget https://github.com/fairbird/ArabicSavior/blob/main/installer.sh -O - | /bin/sh"
+                                cmd="wget https://raw.githubusercontent.com/fairbird/ArabicSavior/main/installer.sh -O - | /bin/sh"
                                 cmdlist.append(cmd)
                                 self.session.open(Console, title = "Installing last update, enigma will be started after install", cmdlist = cmdlist, finishedCallback = self.myCallback, closeOnSuccess=False)
                 except:
