@@ -130,7 +130,7 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
                         skin="""
 <screen name="ArabicSaviorSetup" position="center,center" size="840,560" title="  RAED منقذ اللغه العربيه  د.محمود فرج - تحديث   " flags="wfNoBorder" >
 <widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/>
-<widget name="config" font="Regular;28" itemHeight="45" position="28,80" size="780,200" scrollbarMode="showOnDemand"/>
+<widget name="config" font="Regular;28" secondfont"Regular;26" itemHeight="45" position="28,80" size="780,200" scrollbarMode="showOnDemand"/>
 <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="8,550" zPosition="-10"/>
 <eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="302,550" zPosition="-10"/>
 <eLabel text="" foregroundColor="#00bab329" backgroundColor="#00bab329" size="235,5" position="593,550" zPosition="-10"/>
