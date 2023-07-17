@@ -4,5 +4,5 @@ ArabicSavior plugin by (mfaraj57 & RAED) to fix arabic fonts and also to changin
 
 To install plugin directly online from telnet be this command ... لتثبيت البلجن مباشرة من خلال الإنترنيت بواسطة التلنت بهذا الأمر
 ```
-wget https://raw.githubusercontent.com/fairbird/ArabicSavior/main/installer.sh -O - | /bin/sh
+wget "--no-check-certificate" https://raw.githubusercontent.com/fairbird/ArabicSavior/main/installer.sh -O - | /bin/sh
 ```
