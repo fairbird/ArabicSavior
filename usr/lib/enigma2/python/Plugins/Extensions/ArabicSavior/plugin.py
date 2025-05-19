@@ -190,7 +190,7 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
                 self["config"].onSelectionChanged.append(self.Picture)
 
         def Picture(self):
-                #try:
+                try:
                         cur = self["config"].getCurrent()
                         if cur == self.set_fonts:
                                 preview = PLUGINPATH + "/images/preview/%s.png" % config.ArabicSavior.fonts.value
@@ -202,8 +202,8 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
                                         logdata("Picture preview: No preview image")
                         else:
                                 self["Picture"].hide()
-                #except Exception as error:
-                #        logdata("Picture preview:", error)
+                except Exception as error:
+                        logdata("Picture preview:", error)
 
         def keyLeft(self):
                 ConfigListScreen.keyLeft(self)
