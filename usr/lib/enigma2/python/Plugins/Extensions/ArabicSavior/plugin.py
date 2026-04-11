@@ -217,7 +217,7 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
 
         def activate(self):
                 try:
-                        addFont(FONTSTYPE, "ArabicFont", 100, 1)
+                        addFont(config.ArabicSavior.fonts.value, "ArabicFont", 100, 1)
                         logdata("activate: arabic font added successfully")
                 except Exception as error:
                         logdata("activate:", error)
@@ -230,7 +230,7 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
                         x[1].save()        
                 configfile.save()
                 try:
-                        addFont(FONTSTYPE, "ArabicFont", 100, 1)
+                        addFont(config.ArabicSavior.fonts.value, "ArabicFont", 100, 1)
                         logdata("activate: arabic font added successfully")
                 except Exception as error:
                         logdata("activate:", error)
@@ -294,13 +294,28 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
 def main(session, **kwargs):
         session.open(ArabicSaviorSetup)
 
+def panic(session, **kwargs):
+        try:
+                if config.ArabicSavior.fonts.value not in [x[0] for x in fonts]:
+                        config.ArabicSavior.fonts.value = DEFAULTFont
+                config.ArabicSavior.active.value = True
+                config.ArabicSavior.active.save()
+                config.ArabicSavior.fonts.save()
+                configfile.save()
+                addFont(config.ArabicSavior.fonts.value, "ArabicFont", 100, 1)
+                logdata("panic: quick activation applied")
+                session.open(MessageBox, _("تم تفعيل الإعدادات السريعة بنجاح"), MessageBox.TYPE_INFO, timeout=3)
+        except Exception as error:
+                logdata("panic:", error)
+                session.open(MessageBox, _("حدث خطأ أثناء التفعيل السريع"), MessageBox.TYPE_ERROR, timeout=4)
+
 def sessionstart(reason, **kwargs):
         if reason == 0:
                 if config.ArabicSavior.active.value == False:
                         pass
                 else:
                         try:
-                                addFont(FONTSTYPE, "ArabicFont", 100, 1)
+                                addFont(config.ArabicSavior.fonts.value, "ArabicFont", 100, 1)
                                 logdata("activate: arabic font added successfully")
                         except Exception as error:
                                 logdata("activate:", error)
@@ -309,4 +324,5 @@ def Plugins(**kwargs):
         list = []
         list.append(PluginDescriptor(where = [PluginDescriptor.WHERE_SESSIONSTART], fnc=sessionstart))
         list.append(PluginDescriptor(icon = "icon.png", name = "المنقذ العربي", description = "إصلاح اللغة العربية", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main))
+        list.append(PluginDescriptor(name = "تفعيل سريع المنقذ العربي", description = "تفعيل آخر إعدادات الخط بسرعة", where = PluginDescriptor.WHERE_EXTENSIONSMENU, fnc = panic))
         return list
