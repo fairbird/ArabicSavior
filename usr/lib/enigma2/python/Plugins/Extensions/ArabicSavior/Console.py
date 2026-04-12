@@ -3,7 +3,7 @@
 # RAED & mfaraj57 &  (c) 2018
 
 from __future__ import print_function
-from .compat import PY3
+from Plugins.Extensions.FootOnSat.ui.compat import PY3
 
 from enigma import eConsoleAppContainer
 from Screens.Screen import Screen
@@ -86,7 +86,7 @@ class Console(Screen):
 
     def startRun(self):
         if self.showStartStopText:
-            self['text'].setText(_('Execution progress') + '\n\n')
+            self['text'].setText(_('Execution progress:') + '\n\n')
         print('[Console] executing in run', self.run, ' the command:', self.cmdlist[self.run])
         if self.container.execute(self.cmdlist[self.run]):
             self.runFinished(-1)
