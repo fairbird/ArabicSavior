@@ -294,6 +294,24 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
 def main(session, **kwargs):
         session.open(ArabicSaviorSetup)
 
+def panic(session, **kwargs):
+        global FONTSTYPE
+        try:
+                FONTSTYPE = config.ArabicSavior.fonts.value
+                if FONTSTYPE not in [x[0] for x in fonts]:
+                        FONTSTYPE = DEFAULTFont
+                config.ArabicSavior.active.value = True
+                config.ArabicSavior.active.save()
+                config.ArabicSavior.fonts.value = FONTSTYPE
+                config.ArabicSavior.fonts.save()
+                configfile.save()
+                addFont(FONTSTYPE, "ArabicFont", 100, 1)
+                logdata("panic: quick activation applied")
+                session.open(MessageBox, _("تم تفعيل الإعدادات السريعة بنجاح"), MessageBox.TYPE_INFO, timeout=3)
+        except Exception as error:
+                logdata("panic:", error)
+                session.open(MessageBox, _("حدث خطأ أثناء التفعيل السريع"), MessageBox.TYPE_ERROR, timeout=4)
+
 def sessionstart(reason, **kwargs):
         if reason == 0:
                 if config.ArabicSavior.active.value == False:
@@ -309,4 +327,5 @@ def Plugins(**kwargs):
         list = []
         list.append(PluginDescriptor(where = [PluginDescriptor.WHERE_SESSIONSTART], fnc=sessionstart))
         list.append(PluginDescriptor(icon = "icon.png", name = "المنقذ العربي", description = "إصلاح اللغة العربية", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main))
+        list.append(PluginDescriptor(name = "تفعيل سريع المنقذ العربي", description = "تفعيل آخر إعدادات الخط بسرعة", where = PluginDescriptor.WHERE_EXTENSIONSMENU, fnc = panic))
         return list
