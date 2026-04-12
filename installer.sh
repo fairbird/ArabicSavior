@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ######### Only These two lines to edit with new version #####
-version=2.1
+version=2.2
 #############################################################
 
 # remove old version
