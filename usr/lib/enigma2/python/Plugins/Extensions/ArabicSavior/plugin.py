@@ -288,7 +288,7 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
                 except:
                                 trace_error()
         
-        def myCallback(self,result):
+        def myCallback(self, result = None):
                 return
 
 def main(session, **kwargs):
