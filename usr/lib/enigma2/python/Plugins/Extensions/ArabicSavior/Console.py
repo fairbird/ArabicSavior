@@ -2,9 +2,7 @@
 # -*- coding: utf-8 -*-
 # RAED & mfaraj57 &  (c) 2018
 
-from __future__ import print_function
-from Plugins.Extensions.FootOnSat.ui.compat import PY3
-
+from .compat import PY3
 from enigma import eConsoleAppContainer
 from Screens.Screen import Screen
 from Components.ActionMap import ActionMap
