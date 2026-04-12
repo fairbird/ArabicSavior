@@ -327,5 +327,5 @@ def Plugins(**kwargs):
         list = []
         list.append(PluginDescriptor(where = [PluginDescriptor.WHERE_SESSIONSTART], fnc=sessionstart))
         list.append(PluginDescriptor(icon = "icon.png", name = "المنقذ العربي", description = "إصلاح اللغة العربية", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main))
-        list.append(PluginDescriptor(name = "تفعيل سريع المنقذ العربي", description = "تفعيل آخر إعدادات الخط بسرعة", where = PluginDescriptor.WHERE_EXTENSIONSMENU, fnc = panic))
+        list.append(PluginDescriptor(name = "ArabicSavior تفعيل سريع المنقذ العربي", description = "ArabicSavior تفعيل آخر إعدادات الخط بسرعة", where = PluginDescriptor.WHERE_EXTENSIONSMENU, fnc = panic))
         return list
