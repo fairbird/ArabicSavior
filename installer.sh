@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ######### Only These two lines to edit with new version #####
-version=2.4
+version=2.5
 #############################################################
-
+PLUGINPATH='/usr/lib/enigma2/python/Plugins/Extensions/ArabicSavior'
 # remove old version
 if [ -f /var/lib/dpkg/status ]; then
    apt-ger -r enigma2-plugin-extensions-arabicsavior
@@ -15,6 +15,9 @@ fi
 cd /tmp
 set -e
 rm -rf *ArabicSavior* > /dev/null 2>&1
+echo "Backup keymap.xml"
+echo ""
+cp -f $PLUGINPATH/keymap.xml /tmp > /dev/null 2>&1
 wget https://github.com/fairbird/ArabicSavior/archive/refs/heads/main.tar.gz
 if [ -f '/tmp/ArabicSavior-main.tar.gz' ]; then
 	if [ -f /var/lib/dpkg/status ]; then
@@ -28,6 +31,9 @@ tar -xf main.tar.gz
 cp -r ArabicSavior-main/usr /
 rm -rf *ArabicSavior* > /dev/null 2>&1
 rm -rf *main* > /dev/null 2>&1
+echo "Restore keymap.xml"
+cp -f /tmp/keymap.xml $PLUGINPATH > /dev/null 2>&1
+echo ""
 set +e
 cd ..
 sync
