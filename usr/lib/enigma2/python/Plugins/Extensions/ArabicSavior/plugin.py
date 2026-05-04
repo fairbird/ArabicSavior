@@ -340,14 +340,14 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
 			else:
 				keymap_path = "/usr/lib/enigma2/python/Plugins/Extensions/ArabicSavior/keymap.xml"
 			keyfile = open(keymap_path, "w")
-			keyfile.write('<keymap>\n\t<map context="GlobalActions">\n\t\t<key id="%s" mapto="ArabicSavior" flags="m" />\n\t</map>\n\_n</keymap>' % config.ArabicSavior.keyname.value)
+			keyfile.write('<keymap>\n\t<map context="GlobalActions">\n\t\t<key id="%s" mapto="ArabicSavior" flags="m" />\n\t</map>\n</keymap>' % config.ArabicSavior.keyname.value)
 			keyfile.close()
 		except Exception as error:
 			logdata("keySave keymap error:", error)
 		if self.set_active_value != config.ArabicSavior.active.value or \
 			self.set_fonts_value != config.ArabicSavior.fonts.value or \
 			self.set_keyname_value != config.ArabicSavior.keyname.value:
-			self.session.openWithCallback(self.restart, MessageBox, _("تم تغيير الإعدادات \n\n هل تريد إعادة تشغيل الانجيما الآن؟"))
+			self.session.openWithCallback(self.restart, MessageBox, _("تم تغيير الإعدادات ، هل تريد إعادة تشغيل الانجيما الآن؟"))
 		else:
 			self.close(True)
 
