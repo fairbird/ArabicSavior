@@ -12,11 +12,17 @@ from Components.Pixmap import Pixmap
 from enigma import getDesktop, addFont
 from Components.Sources.StaticText import StaticText
 from Components.ActionMap import ActionMap
+from GlobalActions import globalActionMap
 from Tools.Directories import resolveFilename, SCOPE_PLUGINS
 from os import path as os_path, remove as os_remove, listdir as os_listdir
 from twisted.web.client import getPage, error
 from .compat import PY3
 from .Console import Console
+
+try:
+	from keymapparser import readKeymap
+except:
+	from Components.ActionMap import loadKeymap as readKeymap
 
 PLUGINPATH = resolveFilename(SCOPE_PLUGINS, "Extensions/ArabicSavior")
 
@@ -92,6 +98,27 @@ config.ArabicSavior = ConfigSubsection()
 config.ArabicSavior.active = ConfigEnableDisable(default=True)
 config.ArabicSavior.updateonline = ConfigYesNo(default=True)
 config.ArabicSavior.fonts = ConfigSelection(default=DEFAULTFont, choices=fonts)
+config.ArabicSavior.keyname_enable = ConfigYesNo(default=False)
+config.ArabicSavior.keyname = ConfigSelection(default = "KEY_TEXT", choices = [
+	("KEY_TEXT", _("TEXT")),
+	("KEY_TV", _("TV")),
+	("KEY_RADIO", _("RADIO")),
+	("KEY_OK", _("OK")),
+	("KEY_HELP", _("HELP")),
+	("KEY_INFO", _("INFO")),
+	("KEY_RED", _("RED")),
+	("KEY_GREEN", _("GREEN")),
+	("KEY_BLUE", _("BLUE")),
+	("KEY_VIDEO", _("PVR")),
+	("KEY_HOMEPAGE", _("HOMEPAGE")),
+	("KEY_0", _("0")),
+	("KEY_1", _("1")),
+	("KEY_2", _("2")),
+	("KEY_3", _("3")),
+	("KEY_F1", _("f1")),
+	("KEY_F2", _("f2")),
+	("KEY_F3", _("f3"))
+	])
 
 FONTSTYPE = config.ArabicSavior.fonts.value
 
@@ -117,7 +144,7 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
                         skin="""
 <screen name="ArabicSaviorSetup" position="center,center" size="840,560" title="  RAED منقذ اللغه العربيه  د.محمود فرج - تحديث   " flags="wfNoBorder" >
 <widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/>
-<widget name="config" position="28,70" size="780,200" scrollbarMode="showOnDemand"/>
+<widget name="config" position="28,70" size="780,250" scrollbarMode="showOnDemand"/>
 <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="8,550" zPosition="-10"/>
 <eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="302,550" zPosition="-10"/>
 <eLabel text="" foregroundColor="#00bab329" backgroundColor="#00bab329" size="235,5" position="593,550" zPosition="-10"/>
@@ -130,7 +157,7 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
                         skin="""
 <screen name="ArabicSaviorSetup" position="center,center" size="840,560" title="  RAED منقذ اللغه العربيه  د.محمود فرج - تحديث   " flags="wfNoBorder" >
 <widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/>
-<widget name="config" font="Regular;28" secondfont="Regular;26" itemHeight="45" position="28,80" size="780,200" scrollbarMode="showOnDemand"/>
+<widget name="config" font="Regular;28" secondfont="Regular;26" itemHeight="45" position="28,80" size="780,250" scrollbarMode="showOnDemand"/>
 <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="8,550" zPosition="-10"/>
 <eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="302,550" zPosition="-10"/>
 <eLabel text="" foregroundColor="#00bab329" backgroundColor="#00bab329" size="235,5" position="593,550" zPosition="-10"/>
@@ -160,6 +187,7 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
                         }, -1)
 
                 self.set_active_value = config.ArabicSavior.active.value
+                self.set_keyname_value = config.ArabicSavior.keyname.value
                 self.set_fonts_value = config.ArabicSavior.fonts.value
 
                 self.new_version = VER
@@ -178,11 +206,16 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
                 self.configChanged = True
                 self.set_active = getConfigListEntry(_(":تفعيل وتعطيل المنقذ العربي"), config.ArabicSavior.active)
                 self.set_updateonline = getConfigListEntry(_(":تفعيل وتعطيل خاصية التحديث المباشر"), config.ArabicSavior.updateonline)
+                self.set_keyname_enable = getConfigListEntry(_(":تفعيل وتعطيل خاصية الزر السريع"), config.ArabicSavior.keyname_enable)
+                self.set_keyname = getConfigListEntry(_(":إختيار الزر السريع لتفعيل  المنقذ العربي"), config.ArabicSavior.keyname)
                 self.set_fonts = getConfigListEntry(_(":اختيار نوع الخط"), config.ArabicSavior.fonts)
 
                 list = []
                 list.append(self.set_active)
                 list.append(self.set_updateonline)
+                list.append(self.set_keyname_enable)
+                if config.ArabicSavior.keyname_enable.value:
+                	list.append(self.set_keyname)
                 list.append(self.set_fonts)
 
                 self["config"].list = list
@@ -234,7 +267,19 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
                         logdata("activate: arabic font added successfully")
                 except Exception as error:
                         logdata("activate:", error)
-                if self.set_active_value != config.ArabicSavior.active.value or self.set_fonts_value != config.ArabicSavior.fonts.value:
+                try:
+                        if os_path.exists("/usr/lib64/enigma2/python/Plugins/Extensions/ArabicSavior/keymap.xml"):
+                                keymap_path = "/usr/lib64/enigma2/python/Plugins/Extensions/ArabicSavior/keymap.xml"
+                        else:
+                                keymap_path = "/usr/lib/enigma2/python/Plugins/Extensions/ArabicSavior/keymap.xml"
+                        keyfile = open(keymap_path, "w")
+                        keyfile.write('<keymap>\n\t<map context="GlobalActions">\n\t\t<key id="%s" mapto="ArabicSavior" flags="m" />\n\t</map>\n</keymap>' % config.ArabicSavior.keyname.value)
+                        keyfile.close()
+                except Exception as error:
+                        logdata("keySave keymap error:", error)
+                if self.set_active_value != config.ArabicSavior.active.value or \
+                	self.set_fonts_value != config.ArabicSavior.fonts.value or \
+                	self.set_keyname_value != config.ArabicSavior.keyname.value:
                         self.session.openWithCallback(self.restart, MessageBox, _("تم تغيير الإعدادات ، هل تريد إعادة تشغيل الانجيما الآن؟"))
                 else:
                         self.close(True)
@@ -288,7 +333,7 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
                 except:
                                 trace_error()
         
-        def myCallback(self, result = None):
+        def myCallback(self,result):
                 return
 
 def main(session, **kwargs):
@@ -312,11 +357,14 @@ def panic(session, **kwargs):
                 logdata("panic:", error)
                 session.open(MessageBox, _("حدث خطأ أثناء التفعيل السريع"), MessageBox.TYPE_ERROR, timeout=4)
 
-def sessionstart(reason, **kwargs):
+def sessionstart(reason, session=None, **kwargs):
         if reason == 0:
-                if config.ArabicSavior.active.value == False:
-                        pass
-                else:
+                if session is not None:
+                	if config.ArabicSavior.keyname_enable.value:
+                        	keymap = resolveFilename(SCOPE_PLUGINS, "Extensions/ArabicSavior/keymap.xml")
+                        	readKeymap(keymap)
+                        	globalActionMap.actions['ArabicSavior'] = lambda: panic(session)
+                if config.ArabicSavior.active.value:
                         try:
                                 addFont(FONTSTYPE, "ArabicFont", 100, 1)
                                 logdata("activate: arabic font added successfully")
