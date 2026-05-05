@@ -11,20 +11,18 @@ set -e
 rm -rf *ArabicSavior* > /dev/null 2>&1
 echo "Backup keymap.xml"
 echo ""
-cp -f $PLUGINPATH/keymap.xml /tmp > /dev/null 2>&1
-wget https://github.com/fairbird/ArabicSavior/archive/refs/heads/main.tar.gz
+cp -f $PLUGINPATH/keymap.xml /tmp > /dev/null 2>&1 || true
+wget -O ArabicSavior-main.tar.gz https://github.com/fairbird/ArabicSavior/archive/refs/heads/main.tar.gz
 if [ -f '/tmp/ArabicSavior-main.tar.gz' ]; then
-	if [ -f /var/lib/dpkg/status ]; then
-   		opkg remove enigma2-plugin-extensions-arabicsavior
-	fi
+   	opkg remove enigma2-plugin-extensions-arabicsavior > /dev/null 2>&1 || true
 	rm -rf /usr/lib/enigma2/python/Plugins/Extensions/ArabicSavior > /dev/null 2>&1
 fi
-tar -xf main.tar.gz
+tar -xf ArabicSavior-main.tar.gz
 cp -rf ArabicSavior-main/usr /
 rm -rf *ArabicSavior* > /dev/null 2>&1
 rm -rf *main* > /dev/null 2>&1
 echo "Restore keymap.xml"
-cp -f /tmp/keymap.xml $PLUGINPATH > /dev/null 2>&1
+cp -f /tmp/keymap.xml $PLUGINPATH > /dev/null 2>&1 || true
 echo ""
 set +e
 cd ..
@@ -46,5 +44,5 @@ echo "#########################################################"
 echo "#           your Device will RESTART Now                #"
 echo "#########################################################"
 sleep 3
-killall enigma2
+killall -9 enigma2 
 exit 0
