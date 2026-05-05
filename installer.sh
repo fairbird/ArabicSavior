@@ -6,8 +6,6 @@ version=2.5
 PLUGINPATH='/usr/lib/enigma2/python/Plugins/Extensions/ArabicSavior'
 # remove old version
 if [ -f /var/lib/dpkg/status ]; then
-   apt-get -r enigma2-plugin-extensions-arabicsavior
-else
    opkg remove enigma2-plugin-extensions-arabicsavior
 fi
 
