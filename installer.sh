@@ -20,7 +20,7 @@ if [ -f '/tmp/ArabicSavior-main.tar.gz' ]; then
 	rm -rf /usr/lib/enigma2/python/Plugins/Extensions/ArabicSavior > /dev/null 2>&1
 fi
 tar -xf main.tar.gz
-cp -r ArabicSavior-main/usr /
+cp -rf ArabicSavior-main/usr /
 rm -rf *ArabicSavior* > /dev/null 2>&1
 rm -rf *main* > /dev/null 2>&1
 echo "Restore keymap.xml"
