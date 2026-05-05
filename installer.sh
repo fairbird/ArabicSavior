@@ -4,10 +4,6 @@
 version=2.5
 #############################################################
 PLUGINPATH='/usr/lib/enigma2/python/Plugins/Extensions/ArabicSavior'
-# remove old version
-if [ -f /var/lib/dpkg/status ]; then
-   opkg remove enigma2-plugin-extensions-arabicsavior
-fi
 
 # Download and install plugin
 cd /tmp
@@ -19,8 +15,6 @@ cp -f $PLUGINPATH/keymap.xml /tmp > /dev/null 2>&1
 wget https://github.com/fairbird/ArabicSavior/archive/refs/heads/main.tar.gz
 if [ -f '/tmp/ArabicSavior-main.tar.gz' ]; then
 	if [ -f /var/lib/dpkg/status ]; then
-   		apt-get -r enigma2-plugin-extensions-arabicsavior
-	else
    		opkg remove enigma2-plugin-extensions-arabicsavior
 	fi
 	rm -rf /usr/lib/enigma2/python/Plugins/Extensions/ArabicSavior > /dev/null 2>&1
