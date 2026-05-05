@@ -269,9 +269,9 @@ class ArabicSaviorSetup(ConfigListScreen, Screen):
 		list.append(self.set_updateonline)
 		list.append(self.set_keyname_enable)
 		if config.ArabicSavior.keyname_enable.value:
-			self["key_blue"].setText(_("تعيين زر السريع"))
+			self["key_blue"].setText("تعيين زر السريع")
 		else:
-			self["key_blue"] = StaticText("")
+			self["key_blue"].setText("")
 		list.append(self.set_fonts)
 
 		self["config"].list = list
